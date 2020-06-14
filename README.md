@@ -1,7 +1,7 @@
 # ROS2 에 대한 개념과 공부에 대한 정리 Repo
 ---
 
-#1. ROS 1 과 ROS 2 의 차이점 비교
+# 1. ROS 1 과 ROS 2 의 차이점 비교
 
 ## 아키텍쳐 비교
 ![Relation](./picture/ros_diffrence.png)
@@ -35,5 +35,27 @@
 
         이와 같이 ROS 1 에서 사용했던 명령어와 동일하나 앞에 ` 2 ` 를 붙여 실행하는 것이 특징
 
-#2. ROS 1 과 ROS 2 는 통신이 가능한가?
+# 2. ROS 1 과 ROS 2 는 통신이 가능한가?
+
 ROS1 과 ROS2 두 메타운영체제 간의 통신을 위해서는 별도의 세팅이 필요로 되어진다.
+
+    ros1_bridge node
+
+`ros1_bridge node` 는 ROS1 과 ROS2간의 통신을 위해 만들어진 노드이다.  
+사용방법은 ROS 1 에서 Publish 되고있는 msg가 있을때, ROS 2 에서 해당 메세지를 받고 싶을 경우 `ros2 run ros1_bridge '브릿지 명'` 을 통해 받도록 한다.
+__※ 이때, 사용자는 ROS1 과 ROS2가 동일한 ROS_MASTER_URI 를 사용하고 있어야 한다.__
+
+# 3. 'ROS 2' 는 'ROS 1' 의 한계를 극복하기위해 만들어 진다
+
+ROS2가 나오기 전 필자가 두대 이상의 로봇을 한 공간에 시뮬레이션을 굴리려고 하면 여간 골치아픈 작업이 아닐 수가 없었다.
+
+`Gazebo`에 두대 이상의 시뮬레이션을 넣고싶어 ROS 1 으로 환경을 구축할 때, 이용 해야했던 xml,yaml,launch 구조는 일반적인 방법으로  ROS Developer 들이 하기에는 매우 적합하지 못했다. `<group>` 태그 안에서 `tf_prefix` 를 생성해 별도의 link,joint 그룹을 생성하고 동작에 대한 별도의 node 를 형성 해 실행하는데 있어 그리고 두개 이상의 rviz를 moveit 으로 병행해 Python으로 동작시키는것은 상당히 번거롭다.
+
+
+![Relation](./picture/1.png)
+
+    두대의 6축 로봇을 `Gazebo` 안에서 두개의 Rviz로 제어하는 모습
+
+이러한 형태의 번거로운 구조를 ROS2에서는 보다 간편하고 쉽게 풀어나가는 모습을 보여준다.
+
+ 
