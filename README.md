@@ -1,10 +1,11 @@
 # ROS2 에 대한 개념과 공부에 대한 정리 Repo
 ---
 ## 목 차
-[1. ROS1 과 ROS2의 차이점 비교](#1-ros-1-과-ros-2-의-차이점-비교)
-[2. ROS 1 과 ROS 2 는 통신이 가능한가?](#2-ros-1-과-ros-2-는-통신이-가능한가)
-[3. ROS 2 는 ROS 1 의 한계를 극복하기위해 만들어 진다](#3-ros-2-는-ros-1-의-한계를-극복하기위해-만들어-진다)
-[4. ROS 2 와 그 이전의 개념 탑재하기](#4-ros-2-와-그-이전의-개념-탑재하기)
+
+[1. ROS1 과 ROS2의 차이점 비교](#1-ros-1-과-ros-2-의-차이점-비교)  
+[2. ROS 1 과 ROS 2 는 통신이 가능한가?](#2-ros-1-과-ros-2-는-통신이-가능한가)  
+[3. ROS 2 는 ROS 1 의 한계를 극복하기위해 만들어 진다](#3-ros-2-는-ros-1-의-한계를-극복하기위해-만들어-진다)  
+[4. ROS 2 와 그 이전의 개념 탑재하기](#4-ros-2-와-그-이전의-개념-탑재하기)  
 
 ## 1. ROS 1 과 ROS 2 의 차이점 비교
 
@@ -13,7 +14,7 @@
 
 | 비교 | ROS 1 | ROS 2 |
 | :--------: | :--------: | :--------: | 
-|`Application layer` | 항상 ROS Master가 필요[ roscore 실행해야됨] | DDS 기반 미들웨어안에서만 동작[roscore 안해도됨] | 
+|`Application layer` | 항상 ROS Master가 필요  [ roscore 실행] | DDS 기반 미들웨어안에서만 동작  [roscore 안해] | 
 |`Middleware Layer`| 사용자 정의 위주의 중앙 메커니즘| 추상 미들웨어 인터페이스 | 
 |`지원 OS`|리눅스만 지원| 리눅스/윈도우/맥/ 기타 RTOS 등..| 
 |`지원 언어`|Python2 & C++ 11| Python3 & C++ 14,17| 
@@ -135,13 +136,27 @@ import launch_ros.actions
 def generate_launch_description():
     return LaunchDescription([
         launch_ros.actions.Node(
-            package='패키지 이름', node_executable='실행 할 cpp 이름', output='screen'),
+            package='패키지 이름', node_executable='실행 할 cpp 이름', output='터미널에 뿌릴지 로그파일로 남길지 등을 선택'),
     ])
 ```
+해당 py 프로그램을 생성한 뒤
+
+CMake.txt file 내에 아래 내용의 코드를 추가해 준다. 
+```
+install(DIRECTORY
+  launch
+  DESTINATION share/${PROJECT_NAME}/
+)
+```
+
+아까 위 글에서 설명하였듯, 모든 pkg는 opt/ros/share 에서 관리되고 있다. 해당 프로젝트를 추가함으로서 CMake build 환경을 구성한다.
+
+그다음 `catkin_build --symlink-install` 명령어를 입력해 빌드 후 `ros2 launch 패키지 이름 패키지 실행파일.py` 하면 정상적으로 ROS1에서 패키지 launch 하는 것과 동일한 실행을 진행 할 수 있다.
 
 이런식으로 우리는 기존 ROS1 과 다른 형태의 실행방식에 적응해야된다. ROS2 에는 다양한 언어를 지원하기 위한 Ros Client library(RCL) 을 지원한다. 다양한 언어로 생성된 node 들을 실행 하기위해 ROS2 에 유지보수 팀이 직접 RCL을 관리하고 있다. 
 
 아래 라이브러리는 ROS2 팀에서 관리하는 RCL 이다.
+   
     rclcpp = C++ 클라이언트 라이브러리
     rclpy = Python 클라이언트 라이브러리
 
