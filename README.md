@@ -1,6 +1,10 @@
 # ROS2 에 대한 개념과 공부에 대한 정리 Repo
 ---
-
+## 목 차
+[1. ROS1 과 ROS2의 차이점 비교](#1-ros-1-과-ros-2-의-차이점-비교)
+[2. ROS 1 과 ROS 2 는 통신이 가능한가?](#2-ros-1-과-ros-2-는-통신이-가능한가)
+[3. ROS 2 는 ROS 1 의 한계를 극복하기위해 만들어 진다](#3-ros-2-는-ros-1-의-한계를-극복하기위해-만들어-진다)
+[4. ROS 2 와 그 이전의 개념 탑재하기](#4-ros-2-와-그-이전의-개념-탑재하기)
 
 ## 1. ROS 1 과 ROS 2 의 차이점 비교
 
@@ -75,6 +79,7 @@ ROS 1 시절부터 배워왔던 개념을 다시 정립하고자 해당 내용�
 #### ROS 에서 pkg 란 무엇인가?
 
 __ROS에서 패키지란 ?__ 
+
 cpp 파일, python 파일, configuration 파일, compilation 파일, launch 파일, and parameters 파일을 종합적으로 묶어 놓은 도구를 일컫는다. 패키지에 대한 추상적 개념부터 특징에 대해 말하자면 다음과 같다.
 
     1. 모든 ROS 프로그램은 패키지로 구성된다.
@@ -105,5 +110,38 @@ cpp 파일, python 파일, configuration 파일, compilation 파일, launch 파�
 5. 로봇이름_drvier : 4번과 동일
 6. 로봇이름_moveit_config : moveit으로 생성한 pkg
 
-등등의 형태로 로봇 패키지를 관리하는 작명센스를 보이고있다. 이와 관련된 내용은 프로젝트 진행자 마다 다르므로 건너뛰기로 한다. 필자는 독일에 kuka, ur로봇, 국내 indy series, robotis의 manipulator 에 대한 프로젝트 진행자들이 짠 구조에 대한 내용을 참조함을 이해 바란다.
+등의 형태로 로봇 패키지를 관리하는 작명센스를 보이고있다. 이와 관련된 내용은 프로젝트 진행자 마다 다르므로 건너뛰기로 한다. 필자는 독일에 kuka, ur로봇, 국내 indy series, robotis의 manipulator 에 대한 프로젝트 진행자들이 짠 구조에 대한 내용을 참조함을 이해 바란다.
+
+자, 앞서 이야기 했던 긴 이야기는 ROS 1 이라는 거대한 맥락의 일부이나, 우리는 `ROS2` 를 배우고 있다. 그렇다면 기존에 `launch` 를 통해 실행되었던 우리의 `pkg`는 지금 어떤 식으로 관리 되고 있을까 ?
+
+[아키텍쳐 비교](#아키텍쳐-비교) 에서 설명했듯 `xml` 형태로 실행 되었던 우리의 분노게이지를 올렸던 ROS1의 pkg 관리 방식은 `python`으로 대체되었다. 그 차이를 아래 글에서 설명하고자 한다.
+
+ROS1 시절 실행되었던 `xml` 형태의 실행 `File`
+
+    <launch>
+        <arg name="매개변수 설정" doc="매개변수에 대한 설명" default="입력 없을때 설정할 값" />
+        <param name="파라미터 이름" type="타입(자료형)" value="$(arg 매개변수)"/>
+        <node name="실행할 node 이름" type="실행할 프로그램.py or 실행할 프로그램.cpp" pkg="패키지 이름" />
+    </launch>
+
+ROS 1에서는 이런 형태로 `launch`에 쌈싸먹듯 프로그램을 굴려야 했다면
+
+ROS2에서는 `python`으로 굴린다.
+
+```python
+from launch import LaunchDescription
+import launch_ros.actions
+
+def generate_launch_description():
+    return LaunchDescription([
+        launch_ros.actions.Node(
+            package='패키지 이름', node_executable='실행 할 cpp 이름', output='screen'),
+    ])
+```
+
+이런식으로 우리는 기존 ROS1 과 다른 형태의 실행방식에 적응해야된다. ROS2 에는 다양한 언어를 지원하기 위한 Ros Client library(RCL) 을 지원한다. 다양한 언어로 생성된 node 들을 실행 하기위해 ROS2 에 유지보수 팀이 직접 RCL을 관리하고 있다. 
+
+아래 라이브러리는 ROS2 팀에서 관리하는 RCL 이다.
+    rclcpp = C++ 클라이언트 라이브러리
+    rclpy = Python 클라이언트 라이브러리
 
