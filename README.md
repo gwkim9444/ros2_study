@@ -74,12 +74,16 @@ ROS 1 시절부터 배워왔던 개념을 다시 정립하고자 해당 내용�
 
 #### ROS 에서 pkg 란 무엇인가?
 
-__ROS에서 패키지란 ? __ 
-cpp 파일, python 파일, configuration 파일, compilation 파일, launch 파일, and parameters 파일을 종합적으로 묶어 놓은 도구를 일컫는다. 그리고 그 패키지의 디렉터리 구조는 다음과 같다.
+__ROS에서 패키지란 ?__ 
+cpp 파일, python 파일, configuration 파일, compilation 파일, launch 파일, and parameters 파일을 종합적으로 묶어 놓은 도구를 일컫는다. 패키지에 대한 추상적 개념부터 특징에 대해 말하자면 다음과 같다.
+
+    1. 모든 ROS 프로그램은 패키지로 구성된다.
+    2. 당신이 만드는 모든 ROS 프로그램은 패키지로 구성되야 한다.
+    3. 패키지는 ROS 프로그램의 주요 시스템이다.
 
 패키지는 직접 `catkin_create_pkg` 명령어를 통해 직접 만들 수 도 있으며, 또는 직접 패키지를 설치하여 관리 할 수 있다.
 
-설치된 패키지들은 `/opt/ros/groovy/share/` 의 경로에서 관리되며 생성된 패키지가 없을 경우 사용이 불가하다.
+설치된 패키지들은 `/opt/ros/groovy/share/` 의 경로에서 관리되며 생성된 패키지가 없을 경우 사용이 불가하다. 
 
     대표적인 pkg 중 하나인 'MoveIt! Setup Assistant'
 
