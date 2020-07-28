@@ -22,8 +22,32 @@
 |`roslaunch의 동작 메커니즘`|Xml 기반의 제한된 구조의 실행(은근 빡침)| 복잡한 실행을 Python으로 간편하게|
 
 
-#### 1. Application Layer 
-    기존의 ROS1에서는 roscore의 별도
+#### 1. Application Layer
+
+##### - ROS 1 의 통신 방식
+![Relation](./picture/6.png)
+
+    기존의 ROS1에서는 'roscore' 라는 별도의 마스터를 두고 통신을 진행하였다. 
+    이 마스터는 중개자로서 각종 노드에서 발생하는 Publisher 와 Subscriber 사이에서 일어나는 통신을 중재하였는데 이런 통신에서 XMLRPC(Xml Remote Procedure Call)을 사용하여 상호작용 하였다.
+    'roscore' 명령어를 실행 할 경우 roscore.xml 을 포함하는 launch file을 실행하는데, 해당 xml 안에 내 ROS_MASTER_URI 주소를 사용해 rosmaster가 받아 들일 IP주소 및 PORT를 사용해 마스터를 관리 및 사용한다.
+    여기서 마스터와 슬레이브는 토픽,서비스,액션립의 방식을 활용해 서로 통신을 진행하였었다.
+##### - ROS 2의 통신방식  
+    ROS2의 경우 DDS(Data Distribution Service)라는 통신방식을 활용하여 기존의 통신방식을 개선하였다. 도데체 DDS가 뭔데 ROS2에 서 이를 도입하였을까?
+
+    우선 이 통신 표준을 설립한 OMG(Object Management Group)에 대해서 알아보자
+
+![Relation](./picture/7.png)
+
+#### OMG (Object Management Group)  
+OMG는 1989년 4월 HP, SUN 등 11개 업체에 의해 발족된 OMG는 이러한 표준화를 선두에서 이끌고 있는 조직으로 현재 전 세계 800여 개 이상의 회사가 소속된 컨소시엄 형태의 비영리단체이다.   
+
+주로 정보기술 환경에 관련 된 표준화를 수립하는 일을 하고있으며, MOF,UML,XMI 등의 객체 관리 표준 모델을 제시하고 전파하고있다.
+
+그리고 이 기관에서 최근에 제시한 객체 모델이 바로 DDS이다.
+
+#### 그래서 DDS(Data Distribution Service) 가 뭔데?  
+
+
 ### ROS 2 의 명령어 특징
  - ros2 node list
    - 실행 중인 ROS 2 환경에 node 목록 호출
