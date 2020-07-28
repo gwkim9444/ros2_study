@@ -21,6 +21,9 @@
 |`다중 Node(프로그램)의 지원 여부`|한 프로세스에 한 노드만 지원| 한 프로세스에 다중 노드 지원| 
 |`roslaunch의 동작 메커니즘`|Xml 기반의 제한된 구조의 실행(은근 빡침)| 복잡한 실행을 Python으로 간편하게|
 
+
+#### 1. Application Layer 
+    기존의 ROS1에서는 roscore의 별도
 ### ROS 2 의 명령어 특징
  - ros2 node list
    - 실행 중인 ROS 2 환경에 node 목록 호출
@@ -97,8 +100,15 @@ cpp 파일, python 파일, configuration 파일, compilation 파일, launch 파�
 
 패키지를 설치하면 다음과 같은 디렉터리 구조를 지닌다.
 
-    launch 폴더 : launch files을 보관하는 장소
-    src 폴더 : Source files (cpp, python)을 보관하는 장소
+![Relation](./picture/5.png)  
+
+    config 폴더 : ROS 패키지에서 사용하는 모든 환경 설정 파일들을 보관
+    scripts 폴더 :실행 가능한 python script를 보관
+    action 폴더 : action 정의를 포함해 보관
+    srv 폴더 : 서비스 정의를 포함해 보관
+    msg 폴더 : 맞춤형 메세지 정의를 포함해 보관
+    launch 폴더 : launch files을 보관하는 장소 (하나 이상의 node를 실행하기위해)
+    src 폴더 : 실행 가능한 Cpp file을 보관하는 장소
     CMakeLists.txt : CMake 빌드환경에 대한 기술
     package.xml : 패키지 정보가 담긴 xml 구조의 파일
 
