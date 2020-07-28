@@ -98,7 +98,7 @@ cpp 파일, python 파일, configuration 파일, compilation 파일, launch 파�
 
 ![Relation](./picture/4.png)
 
-패키지를 설치하면 다음과 같은 디렉터리 구조를 지닌다.
+ROS에서 패키지를 생성한 경우 다음과 같은 디렉터리 구조를 만들 수 있다.
 
 ![Relation](./picture/5.png)  
 
